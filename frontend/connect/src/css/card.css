@@ -21,14 +21,15 @@
 }
 
 #uploadbtn {
-  height: 40px;
-  width: 50%;
+  height: 30px;
+  width: 20%;
+  border-radius: 10px;
   background: rgba(0, 0, 0, 0.6);
   text-align: center;
   line-height: 30px;
   color: wheat;
   font-family: sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   cursor: pointer;
 }
 
