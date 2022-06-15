@@ -1,0 +1,13 @@
+.box-1{
+    
+    
+    justify-content: space-between;
+}
+.box-2{
+padding: 50px;
+    display: flex;   
+   flex-wrap: wrap; 
+}
+/* .box-2:hover{
+transform: scale(1.2);
+} */

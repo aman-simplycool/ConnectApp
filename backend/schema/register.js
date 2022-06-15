@@ -22,6 +22,9 @@ required:true
 cpassword:{
 type:String,
 required:true
+},
+imageurl:{
+type:String,
 }
 })
 schema.pre('save',async function(next){
@@ -37,13 +40,19 @@ schema.pre('save',async function(next){
 })
 
 schema.methods = {
-  "verifyPassword": function(password){
-    try {
-      return bcrypt.compare(password,this.password);
-    } catch (error) {
-      console.log(error);
-      return false;
+  "verifyPassword": function(password,callback){
+    if(!password){
+     callback(null,false); 
     }
+    else{
+      try {
+        callback(null,bcrypt.compareSync(password,this.password));
+      } catch (error) {
+        console.log(error);
+        callback(error,false);
+      }
+    }
+  
     
   }
 }

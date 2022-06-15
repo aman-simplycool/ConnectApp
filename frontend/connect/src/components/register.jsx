@@ -15,6 +15,7 @@ function Register(){
     setdata({...data,[name]:value})
 }
    const Postdata=async(e)=>{
+    
     e.preventDefault();
     const{name,email,gender,password,cpassword}=data;
     if(!name||!email||!gender||!password||!cpassword){
@@ -30,9 +31,10 @@ function Register(){
       }) 
     })
     const user=await res.json();
-    if(!user){
-      window.alert("some error occured") 
+    if(user.status===200){
+      window.alert("sucess") 
     }
+  
     if(user.status===401 ){
        alert("user already registerd")
     }

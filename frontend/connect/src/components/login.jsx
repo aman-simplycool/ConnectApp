@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import "../css/login.css"
 function Login(){
+  
     const[data,setdata]=useState({
         email:"",password:""
     })
@@ -9,6 +10,33 @@ function Login(){
     var value=event.target.value;
     setdata({...data,[name]:value}) 
     }
+    const postdata = async(e)=>{
+        console.log(data);
+        e.preventDefault();
+        try{
+            const res=await fetch("/login",{
+              method:"POST",
+              headers:{
+                 "Content-Type":"application/json"
+              },
+              body:JSON.stringify(data) 
+            })
+            const user = await res.json();
+        
+            if(res.status==200){
+               alert("sucessful login") 
+            }       
+            else{
+               alert("unsucessful"); 
+            }
+          
+        }catch(err){
+            console.log(err);
+            alert(err)
+        }
+       
+       }
+    
     return(
 <div className="main">
     <img src="/img/lggirl.png" alt="" />
@@ -17,8 +45,8 @@ function Login(){
     <label for="email" id="email">email id</label> <br />
    <input type="text" placeholder="email" onChange={handleEvent} name="email" value={data.email}/> <br />
    <label for="password" id="password">password</label> <br />
-   <input type="text" placeholder="password" name="password" onChange={handleEvent} value={data.password}/> <br /> 
-   <button type="button" class="btn btn-outline-primary">Primary</button>
+   <input type="password" placeholder="password" name="password" onChange={handleEvent} value={data.password}/> <br /> 
+   <button type="button" class="btn btn-outline-primary" onClick={postdata}>Submit</button>
 </div>
 </div>
 </div>

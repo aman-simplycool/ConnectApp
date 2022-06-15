@@ -5,6 +5,7 @@ import Register from "./components/register"
 import Navbar from "./components/navbar";
 import Login from "./components/login"
 import AboutUs from "./components/aboutus";
+import User from "./components/users"
 import './App.css';
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
   <Route  path="/Login" exact element={<Login/>}/>
   <Route  path="/Register" exact element={<Register/>}/>
   <Route path='/AboutUs' exact element ={<AboutUs/>}/>
+  <Route path='/User' exact element={<User/>}/>
 </Routes>
 </BrowserRouter>
   
