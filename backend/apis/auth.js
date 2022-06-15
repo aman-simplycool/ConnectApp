@@ -82,16 +82,16 @@ const upload = multer({ storage: fileStorage })
 
 
 router.post('/imgpost', upload.single("image"), async (req, res) => {
-var query = {'email': req.body.email};
-regData.findOneAndUpdate(query, {imageurl: req.file.filename}, {upsert: true}, function(err, doc) {
-    if (err){
+  var query = { 'email': req.body.email };
+  regData.findOneAndUpdate(query, { imageurl: req.file.filename }, { upsert: true }, function (err, doc) {
+    if (err) {
       return res.status(500).json(err);
     }
-     else if(!err){
+    else if (!err) {
       console.log("hello insider2")
       return res.status(200).json("sucessfully saved")
-     }
-});
+    }
+  });
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
