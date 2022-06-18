@@ -1,16 +1,17 @@
-import { useState } from "react"
 // Component CSS style
 require("../css/card.css")
 
 
 function Card(props) {
   // Destructure the props
-  const { name, email, imgSrc, setMakeChanges } = props;
+  const { name, email, imgSrc, setMakeChanges, formData, setFormData } = props;
+  const defaultImgSrc = "https://png.pngitem.com/pimgs/s/41-414928_face-head-line-art-clip-and-white-symbol.png";
 
-  // Create FormData object
-  const formData = new FormData();
   // To upload the image to the backend server
-  async function uploadImage(formData) {
+  async function uploadImage() {
+    for (let val of formData.values()) {
+      console.log(val);
+    }
     try {
       const res = await fetch('http://localhost:5000/imgpost', {
         method: "POST",
@@ -23,10 +24,6 @@ function Card(props) {
       console.log(error);
     }
   };
-
-  // Default image URL
-  const [dImgSrc, setDImgSrc] = useState(
-    "https://png.pngitem.com/pimgs/s/41-414928_face-head-line-art-clip-and-white-symbol.png");
 
   // Helper func() to read the image data and upload the image
   // to the backedn server
@@ -45,8 +42,9 @@ function Card(props) {
         // Read the file as Base64 Data URL
         reader.readAsDataURL(file);
         // Add Image to the formData
-        formData.append("image", file);
-        formData.append("email", email);
+        const fd = new FormData();
+        fd.append("image", file);
+        setFormData(fd);
       } catch (error) {
         // Log the error if there is an error
         console.log("error");
@@ -57,8 +55,10 @@ function Card(props) {
   // Upload the Image 
   const onUploadImage = (e) => {
     e.preventDefault();
+    // Add email to formData
+    setFormData(formData.append("email", email));
     //Upload the Image
-    uploadImage(formData).then(data => {
+    uploadImage().then(data => {
       if (data) {
         console.log(data);
         setMakeChanges(true);
@@ -75,10 +75,17 @@ function Card(props) {
   return (
     <div className="poster">
       <div className="outer-box">
-        <h2 className="name">{name}</h2>
-        <p className="info">{email}</p>
+        <h2 style={{ "textTransform": "capitalize" }} className="name">{name}</h2>
+        <p className="info">{"Email: " + email}</p>
         <div>
-          <img id="photo" src={!!imgSrc ? imgSrc : dImgSrc} alt="userphoto" />
+          <img
+            id="photo"
+            width={"200px"}
+            height={"200px"}
+            src={!!imgSrc ? imgSrc : defaultImgSrc}
+            alt="userphoto"
+            style={{ "borderRadius": "50%", "boxShadow": "0 0 8px #000" }}
+          />
           <form>
             <div style={{ "display": "block", "padding": "20px" }}>
               <div>

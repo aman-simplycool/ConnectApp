@@ -1,5 +1,5 @@
 import React from "react"
-import {BrowserRouter ,Route,Routes} from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./components/home"
 import Register from "./components/register"
 import Navbar from "./components/navbar";
@@ -9,19 +9,16 @@ import User from "./components/users"
 import './App.css';
 function App() {
   return (
-<BrowserRouter>
-  <Navbar/>
-<Routes>
-  <Route  path="/" exact element={<Home/>}/>
-  <Route  path="/Login" exact element={<Login/>}/>
-  <Route  path="/Register" exact element={<Register/>}/>
-  <Route path='/AboutUs' exact element ={<AboutUs/>}/>
-  <Route path='/User' exact element={<User/>}/>
-</Routes>
-</BrowserRouter>
-  
- 
-
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/Login" exact element={<Login />} />
+        <Route path="/Register" exact element={<Register />} />
+        <Route path='/AboutUs' exact element={<AboutUs />} />
+        <Route path='/User' exact element={<User />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

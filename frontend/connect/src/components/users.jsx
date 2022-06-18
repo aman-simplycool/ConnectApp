@@ -11,6 +11,7 @@ function User() {
 
    const [data, setData] = useState([]);
    const [makeChanges, setMakeChanges] = useState(false);
+   const [formData, setFormData] = useState(null);
 
    // Preload the data when page loads
    useEffect(() => {
@@ -42,6 +43,8 @@ function User() {
                   email={value.email}
                   imgSrc={value.imageurl}
                   setMakeChanges={setMakeChanges}
+                  formData={formData}
+                  setFormData={setFormData}
                />
             ))}
          </div>
