@@ -1,11 +1,16 @@
-require("dotenv").config()
-const express=require("express")
-const app=express();
+require("dotenv").config({ path: "env/.env" })
+const express = require("express")
 require("./connection/conn")
+
+// app
+const app = express();
+// Middlewares
 app.use(express.json())
 app.use(express.static("storage"))
 app.use(require("cors")())
 app.use(require('./apis/auth'))
-app.listen(5000,()=>{
+
+// Listen the server
+app.listen(5000, () => {
     console.log(`server is running at port 5000`);
 })
