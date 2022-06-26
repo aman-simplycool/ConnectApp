@@ -1,6 +1,7 @@
 const mongoose=require("mongoose")
 const express=require("express")
 const bcrypt =require("bcrypt")
+const jwt=require("jsonwebtoken")
 const schema= new mongoose.Schema({
 name:{
 type:String,
@@ -16,17 +17,15 @@ type:String,
 required:true
 },
 password:{
-type:String,
-required:true
+type:String
 },
 cpassword:{
-type:String,
-required:true
+type:String
 },
 imageurl:{
 type:String,
-}
-})
+ }
+ })
 schema.pre('save',async function(next){
   try {
     const salt=await bcrypt.genSalt(10);
@@ -38,24 +37,6 @@ schema.pre('save',async function(next){
     next(err)
   }
 })
-
-schema.methods = {
-  "verifyPassword": function(password,callback){
-    if(!password){
-     callback(null,false); 
-    }
-    else{
-      try {
-        callback(null,bcrypt.compareSync(password,this.password));
-      } catch (error) {
-        console.log(error);
-        callback(error,false);
-      }
-    }
-  
-    
-  }
-}
 
 const regData=new mongoose.model('regData',schema)
 module.exports=regData;

@@ -24,7 +24,16 @@ return(
         <a class="nav-link">register</a>
       </li>
       </Link>
-    
+      <Link to="/User">
+      <li class="nav-item active">
+        <a class="nav-link">User</a>
+      </li>
+      </Link>
+      <Link to="/Logout">
+      <li class="nav-item active">
+        <a class="nav-link">Logout</a>
+      </li>
+      </Link>
       
       <li class="nav-item active">
         <a class="nav-link">about us</a>

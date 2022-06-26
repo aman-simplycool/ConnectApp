@@ -1,7 +1,28 @@
 import React, { useState } from "react"
+import { useEffect } from "react"
+import { Navigate, useNavigate } from "react-router-dom"
 import "../css/login.css"
 function Login(){
-  
+    // const callVerify=async()=>{
+    //     try {
+    //         const res=await fetch('/isverified',{
+    //         method:"GET",
+    //         headers:{
+    //            "Content-Type":"application/json" 
+    //         },
+    //         credentials:"include"
+    //         })
+    //         if(res.status!=200){
+    //             console.log("some err occured");
+    //             alert("some err occured")
+    //         }
+    //     } catch (err){
+    //         alert("please login first");
+    //     }
+    // }
+    // useEffect(()=>{
+    //     callVerify();
+    // },[])
     const[data,setdata]=useState({
         email:"",password:""
     })
@@ -11,7 +32,6 @@ function Login(){
     setdata({...data,[name]:value}) 
     }
     const postdata = async(e)=>{
-        console.log(data);
         e.preventDefault();
         try{
             const res=await fetch("/login",{
@@ -24,7 +44,8 @@ function Login(){
             const user = await res.json();
         
             if(res.status==200){
-               alert("sucessful login") 
+             alert("sucessful login") 
+            Navigate("/User")
             }       
             else{
                alert("unsucessful"); 

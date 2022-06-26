@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom"
 // card Component
 import Card from "./card";
 // Data fetch APIs
@@ -8,21 +9,28 @@ import("../css/user.css");
 
 // Component
 function User() {
-
    const [data, setData] = useState([]);
+   const [error, setError] = useState("");
+   const [redirect, setRedirect] = useState(false);
    const [makeChanges, setMakeChanges] = useState(false);
    const [formData, setFormData] = useState(null);
+
+   
 
    // Preload the data when page loads
    useEffect(() => {
       getData().then((docs) => {
-         // If if there is a docs
-         if (docs) {
+         // If  there is a docs
+         if (docs.error) {
+            setError(docs.error)
+            setRedirect(true)
+         }
+         else if (docs) {
             console.log(docs);
             setData(docs);
          }
          else if (!docs) {
-            console.log("No data found on the server");
+            setRedirect(true)
          }
       }).catch((err) => {
          console.log(err);

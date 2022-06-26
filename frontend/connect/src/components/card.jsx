@@ -9,9 +9,6 @@ function Card(props) {
 
   // To upload the image to the backend server
   async function uploadImage() {
-    for (let val of formData.values()) {
-      console.log(val);
-    }
     try {
       const res = await fetch('http://localhost:5000/imgpost', {
         method: "POST",
@@ -31,16 +28,16 @@ function Card(props) {
     // Take the file
     const file = e.target.files[0];
     // Intialize the reader object from FileReader class
-    const reader = new FileReader();
+    // const reader = new FileReader();
     // Add addEventListener "loader"
-    reader.addEventListener("load", () => {
-      console.log(reader.result);
-    });
+    // reader.addEventListener("load", () => {
+    //   console.log(reader.result);
+    // });
     // Check if the file is available to upload and read
     if (file) {
       try {
         // Read the file as Base64 Data URL
-        reader.readAsDataURL(file);
+        // reader.readAsDataURL(file);
         // Add Image to the formData
         const fd = new FormData();
         fd.append("image", file);
