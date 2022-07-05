@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom"
+import { useNavigate } from "react-router";
 // card Component
 import Card from "./card";
 // Data fetch APIs
@@ -9,6 +9,28 @@ import("../css/user.css");
 
 // Component
 function User() {
+   const navigate =useNavigate();
+    const callVerify=async()=>{
+        try {
+            const res=await fetch('/isverified',{
+            method:"GET",
+            headers:{
+               "Content-Type":"application/json" 
+            },
+            credentials:"include"
+            })
+            if(res.status!=200){
+                console.log("some err occured");
+                navigate('/Login')
+            }
+           
+        } catch (err){
+            alert("please login first");
+        }
+    }
+    useEffect(()=>{
+        callVerify();
+    },[])
    const [data, setData] = useState([]);
    const [error, setError] = useState("");
    const [redirect, setRedirect] = useState(false);

@@ -4,10 +4,9 @@ const bcrypt = require("bcrypt")
 const multer = require('multer')
 const jwt = require("jsonwebtoken")
 const cookie = require("cookie");
-const { Router } = require('express');
 
 
-// Check whether the use is signedIn
+// ->Check whether the use is signedIn
 async function isSignedIn(req, res, next) {
   if(!req.headers.cookie) {
     return res.status(401).json({error: "Unauthorized"})
@@ -16,6 +15,7 @@ async function isSignedIn(req, res, next) {
   console.log(authToken);
   jwt.verify(authToken, process.env.SECRET_KEY, (error, decode) => {
     if (error) {
+      console.log("unauthorized error");
       return res.status(401).json({ "error": "Unauthorized" })
     } else {
       if (decode.email) {
@@ -26,7 +26,11 @@ async function isSignedIn(req, res, next) {
           if (!doc) {
             return res.status(401).json({ "error": "Unauthorized" })
           }
-          next()
+          else{
+            console.log('verification sucess from middleware');
+            next() 
+          }
+          
         })
       }
     }
@@ -35,10 +39,11 @@ async function isSignedIn(req, res, next) {
 
 
 router.get('/isverified', isSignedIn, (req, res) => {
+  console.log("user is verified");
   return res.status(200).json({ msg: "Success" })
 })
 
-//////////////////////////////registration starts///////////////////////////////////
+//->REGISTER API STARTS FROM HERE 
 router.post('/register', (req, res) => {
   const { name, gender, email, password, cpassword } = req.body;
   if (password != cpassword) {
@@ -64,9 +69,9 @@ router.post('/register', (req, res) => {
       return res.status(402).send("some err occured")
     })
 })
-///////////////////////////////registration api ends here//////////////////////////////////////////////    
+   
 
-///////////////////////////////login api ///////////////////////////////////
+//->LOGIN API STARTS FROM HERE
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -77,15 +82,16 @@ router.post('/login', async (req, res) => {
     const passwordMaches = await bcrypt.compare(password, query.password);
     if (passwordMaches) {
       // console.log("hello");
-      const authToken = jwt.sign({ email: query.email }, process.env.SECRET_KEY,{expiresIn:'600'});
+      const authToken = jwt.sign({ email: query.email }, process.env.SECRET_KEY,{expiresIn:"60000"});
       res.cookie("jwtToken", authToken);
-      return res.status(200).send({ msg: "sucess login", authToken ,expires:""})
+      return res.status(200).send({ msg: "sucess login", authToken })
     }
     else if (!passwordMaches) { return res.status(402).send({ msg: "password does not match" }) }
   }
 });
-//////////////////////////////////////////////////////////////////////
-//getting the data from db////////////////////////////////////////////
+
+//->getting data from data route
+
 router.get('/data', isSignedIn, async (req, res) => {
   regData.find({}, (err, docs) => {
     if (err) {
@@ -97,44 +103,17 @@ router.get('/data', isSignedIn, async (req, res) => {
     }
   })
 })
-/////////////////////////////////////////////////////////////data api ends/////////////
+//->DATA API END HERE
 
 //->logout functionality implemented here//
 
 router.get('/logout',async(req,res)=>{
 res.clearCookie('jwtToken');
-console.log("logout called");
+
 return res.status(200).json("user logout");
 
 })
 
-/////////////////////////////////////////////////////////////image storing api////////
-const fileStorage = multer.diskStorage(
-  {
-    destination: (req, file, cb) => {
-      cb(null, "./storage");
-    },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + '--' + file.originalname);
-    }
-  })
 
 
-const upload = multer({ storage: fileStorage })
-
-
-router.post('/imgpost', upload.single("image"), async (req, res) => {
-  var query = { 'email': req.body.email };
-  regData.findOneAndUpdate(query, { imageurl: req.file.filename }, { upsert: true }, function (err, doc) {
-    if (err) {
-      return res.status(500).json(err);
-    }
-    else if (!err) {
-      console.log("hello insider2")
-      return res.status(200).json("sucessfully saved")
-    }
-  });
-});
-
-///////////////////////////////////////////////////////////////////////////////////////
 module.exports = router

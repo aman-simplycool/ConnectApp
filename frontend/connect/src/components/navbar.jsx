@@ -35,9 +35,9 @@ return(
       </li>
       </Link>
       
-      <li class="nav-item active">
+      {/* <li class="nav-item active">
         <a class="nav-link">about us</a>
-      </li>
+      </li> */}
     </ul>
   </div>
 </nav>

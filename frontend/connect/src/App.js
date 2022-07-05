@@ -16,7 +16,7 @@ function App() {
         <Route path="/" exact element={<Home />} />
         <Route path="/Login" exact element={<Login />} />
         <Route path="/Register" exact element={<Register />} />
-        <Route path='/AboutUs' exact element={<AboutUs />} />
+        {/* <Route path='/AboutUs' exact element={<AboutUs />} /> */}
         <Route path='/User' exact element={<User />}/>
         <Route path='/Logout' exact element={<Logout/>}/>
       </Routes>
