@@ -1,0 +1,21 @@
+*{
+   padding: 0;
+   margin: 0;
+  
+   
+}
+.main-bg{
+    width: 1500px;
+    height: 500px;
+  
+   
+}
+.main-frm{
+    margin: 200px 700px 0px 600px;
+    justify-content: center;
+    text-align: center;
+    
+}
+.btn{
+margin: 20px;
+}
